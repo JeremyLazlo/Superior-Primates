@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84e320bc2b621e64e8ef91c6f5e93390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MouseLook
-  sensitivity: 1
+  sensitivity: 0.5
   smoothing: 1.5
 --- !u!1 &400494498
 GameObject:
