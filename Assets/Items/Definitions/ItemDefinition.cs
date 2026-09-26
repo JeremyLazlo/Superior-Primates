@@ -4,9 +4,12 @@ using UnityEngine;
 public class ItemDefinition : ScriptableObject
 {
     public string itemID;
+    [Header("Visual")]
     public string itemName;
     public string itemDescription;
-    public Vector2Int itemSize = Vector2Int.one;
     public Sprite itemIcon;
+
+    [Header("Inventory")]
+    public Vector2Int itemSize = Vector2Int.one;
     public int itemStack;
 }
