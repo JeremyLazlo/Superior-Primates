@@ -15,6 +15,8 @@ public class MouseLook : MonoBehaviour
     private float verticalLookPosition;
     private Transform playerBody;
 
+    private bool lookEnabled = true;
+
     void Start()
     {
         // The Main Camera's parent should be the Player.
@@ -26,9 +28,17 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
+        if (!lookEnabled)
+            return;
+
         GetInput();
         ModifyInput();
         MovePlayer();
+    }
+
+    public void SetLookEnabled(bool enabled)
+    {
+        lookEnabled = enabled;
     }
 
     void GetInput() // Get input from the mouse and calculate the movement vector
