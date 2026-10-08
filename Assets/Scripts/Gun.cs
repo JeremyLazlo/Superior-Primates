@@ -13,6 +13,7 @@ public class Gun : MonoBehaviour
 
     public LayerMask raycastLayerMask; // Layer mask to filter the raycast to only hit enemies
     public EnemyManager enemyManager; // Reference to the EnemyManager script
+    public Animator weaponAnimator; // Reference to the Animator component attached to the weapon
 
     void Start()
     {
@@ -34,6 +35,9 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
+        //gun fire animation trigger
+        weaponAnimator.SetTrigger("Fire");
+        
         //play ShotGun sound effect
         GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().Play();
