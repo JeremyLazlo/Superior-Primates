@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 602ac40775c8bdd429fa2a86267e9ff6, type: 3}
-  m_Name: AmmoShotgun
+  m_Name: Shotgun
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  itemID: ammoShotgun
-  itemName: Shotgun Ammo
-  itemDescription: Heavy ammunition for a shotgun.
+  itemID: weaponShotgun
+  itemName: Shotgun
+  itemDescription: A close range, high damage firearm.
   itemIcon: {fileID: 0}
-  itemSize: {x: 1, y: 2}
-  itemStack: 5
+  itemSize: {x: 2, y: 5}
+  itemStack: 1

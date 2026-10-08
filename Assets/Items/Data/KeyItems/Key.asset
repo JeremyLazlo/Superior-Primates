@@ -15,6 +15,6 @@ MonoBehaviour:
   itemID: keyKey
   itemName: Key
   itemDescription: Placeholder for a key item that gates progress.
-  itemSize: {x: 1, y: 1}
   itemIcon: {fileID: 0}
+  itemSize: {x: 2, y: 1}
   itemStack: 1

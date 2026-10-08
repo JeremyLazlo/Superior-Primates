@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: Injection
   itemDescription: placeholder for any type of injection/syringe items in the lab,
     if any
-  itemSize: {x: 2, y: 1}
   itemIcon: {fileID: 0}
+  itemSize: {x: 2, y: 3}
   itemStack: 1
