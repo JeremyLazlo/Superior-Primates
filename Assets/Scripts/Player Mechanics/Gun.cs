@@ -7,6 +7,7 @@ public class Gun : MonoBehaviour
     public float verticalRange = 5f;
     public float fireRate = 1f;
     public float damage = 2f;
+    public AudioSource shotAudio;
 
     private float nextTimeToFire;
     private BoxCollider gunTrigger;
@@ -15,6 +16,8 @@ public class Gun : MonoBehaviour
 
     public LayerMask raycastLayerMask;
     public EnemyManager enemyManager;
+
+    public Animator weaponAnimator; // Reference to the Animator component attached to the weapon
 
     void Start()
     {
@@ -44,9 +47,12 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
+        //gun fire animation trigger
+        weaponAnimator.SetTrigger("Fire");
+        
         //play ShotGun sound effect
-        GetComponent<AudioSource>().Stop();
-        GetComponent<AudioSource>().Play();
+        shotAudio.Stop();
+        shotAudio.Play();
 
         foreach (var enemy in enemyManager.enemiesInTrigger)
         {

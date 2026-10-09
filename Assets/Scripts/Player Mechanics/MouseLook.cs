@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class MouseLook : MonoBehaviour
 {
-    public float sensitivity = 1f;
+    public float sensitivity = 0.6f;
     public float smoothing = 1.5f;
 
     private float xMousePos;
