@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class MouseLook : MonoBehaviour
 {
-    public float sensitivity = 1f;
+    public float sensitivity = 0.6f;
     public float smoothing = 1.5f;
 
     private float xMousePos;
@@ -14,6 +14,8 @@ public class MouseLook : MonoBehaviour
 
     private float verticalLookPosition;
     private Transform playerBody;
+
+    private bool lookEnabled = true;
 
     void Start()
     {
@@ -26,9 +28,17 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
+        if (!lookEnabled)
+            return;
+
         GetInput();
         ModifyInput();
         MovePlayer();
+    }
+
+    public void SetLookEnabled(bool enabled)
+    {
+        lookEnabled = enabled;
     }
 
     void GetInput() // Get input from the mouse and calculate the movement vector
