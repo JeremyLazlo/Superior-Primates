@@ -9,14 +9,19 @@ public class Enemy : MonoBehaviour
     [Header("References")]
     private NavMeshAgent agent;
     private Transform player; // grabbed once in Start, no need to look it up every frame
+    private PlayerHealth playerHealth; // lives on the same object as the Player tag
 
     [Header("Detection")]
     public float detectionRange = 10f;  // how close player has to get before we notice them
     public float attackRange = 2f;      // how close before we stop and swing
-    public float loseTargetRange = 15f; // if player gets this far away mid chase we give up
+    public float loseTargetRange = 15f; // if player gets this far away mid chase we give up (a little more than detectionRange)
+
+    [Header("Speed")]
+    public float patrolSpeed = 1.5f; // slow walk while we haven't noticed the player
+    public float chaseSpeed = 2.5f;  // speed once we're going after them
 
     [Header("Attack")]
-    public float attackDamage = 1f;
+    public int attackDamage = 10; // PlayerHealth.DamagePlayer takes an int
     public float attackCooldown = 1.5f; // seconds between hits so we're not attacking every frame
     private float lastAttackTime = -999f;
 
@@ -34,11 +39,13 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = patrolSpeed; // start out slow, speed up once we spot the player (chase mode)
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             player = playerObj.transform;
+            playerHealth = playerObj.GetComponent<PlayerHealth>(); // grab it once here too
         }
 
         if (patrolPoints.Length > 0)
@@ -51,7 +58,7 @@ public class Enemy : MonoBehaviour
     {
         if(enemyHealth <= 0) // Check if the enemy's health is zero or below
         {
-            enemyManager.RemoveEnemy(this); // Remove the enemy from the list in EnemyManager
+            if (enemyManager != null) enemyManager.RemoveEnemy(this); // Remove the enemy from the list in EnemyManager
             Destroy(gameObject);
             return;
         }
@@ -68,6 +75,7 @@ public class Enemy : MonoBehaviour
                 if (distanceToPlayer <= detectionRange)
                 {
                     currentState = State.Chase;
+                    agent.speed = chaseSpeed; // Initiate the chase speed (faster than patrol)
                 }
                 break;
 
@@ -77,17 +85,19 @@ public class Enemy : MonoBehaviour
                 if (distanceToPlayer <= attackRange)
                 {
                     currentState = State.Attack;
+                    lastAttackTime = Time.time; // first swing waits a full cooldown, gives the player a beat
                 }
                 else if (distanceToPlayer > loseTargetRange)
                 {
                     currentState = State.Idle; // lost them, go back to patrolling
+                    agent.speed = patrolSpeed; // and slow back down
                 }
                 break;
 
             case State.Attack:
                 agent.SetDestination(transform.position); // stop moving
 
-                // face the player while attacking, just looks better
+                // face the player while attacking
                 Vector3 dir = (player.position - transform.position).normalized;
                 dir.y = 0;
                 if (dir != Vector3.zero)
@@ -122,14 +132,28 @@ public class Enemy : MonoBehaviour
 
     void AttackPlayer()
     {
-        // just a log for now until player health exists
-        Debug.Log("Enemy attacks player for " + attackDamage + " damage!");
+        // hits the player through PlayerHealth script
+        if (playerHealth != null)
+        {
+            playerHealth.DamagePlayer(attackDamage);
+        }
 
-        // player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
+        Debug.Log("Enemy attacks player for " + attackDamage + " damage!");
     }
 
     public void TakeDamage(float damage) // Method to apply damage to the enemy
     {
         enemyHealth -= damage; // Reduce the enemy's health by the damage amount
+    }
+
+    // draws the ranges in the Scene view when this enemy is selected, handy for tuning
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRange); // yellow = notices you
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange); // red = hits you
+        Gizmos.color = Color.gray;
+        Gizmos.DrawWireSphere(transform.position, loseTargetRange); // gray = gives up chasing
     }
 }
