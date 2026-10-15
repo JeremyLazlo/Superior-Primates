@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
     private Transform player; // grabbed once in Start, no need to look it up every frame
     private PlayerHealth playerHealth; // lives on the same object as the Player tag
+    private Vector3 spawnPosition; // remembered so enemies with no patrol points can walk back
 
     [Header("Detection")]
     public float detectionRange = 10f;  // how close player has to get before we notice them
@@ -40,6 +41,7 @@ public class Enemy : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = patrolSpeed; // start out slow, speed up once we spot the player (chase mode)
+        spawnPosition = transform.position; // remember where we started
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
@@ -121,7 +123,11 @@ public class Enemy : MonoBehaviour
 
     void Patrol()
     {
-        if (patrolPoints.Length == 0) return;
+        if (patrolPoints.Length == 0)
+        {
+            agent.SetDestination(spawnPosition); // no route, so head back to where we started
+            return;
+        }
 
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
