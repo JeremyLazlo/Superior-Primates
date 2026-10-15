@@ -113,4 +113,6 @@ InitTestScene*.unity*
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
-.vsconfig
+Assets/AudioTools.meta
+/Assets/AudioTools
+

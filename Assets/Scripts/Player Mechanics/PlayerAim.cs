@@ -12,8 +12,8 @@ public class PlayerAim : MonoBehaviour
     public float aimFOV = 45f;
 
     // Sensitivity settings for aiming
-    public float normalSensitivity = 1f;
-    public float aimSensitivity = 0.5f;
+    public float normalSensitivity = 0.6f;
+    public float aimSensitivity = 0.3f;
 
     public float zoomSpeed = 10f;
 
