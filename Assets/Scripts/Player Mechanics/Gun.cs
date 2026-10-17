@@ -47,6 +47,9 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
+        // out of ammo
+        if (TryGetComponent(out GunAmmo ammo) && !ammo.TryUseRound()) return;
+
         //gun fire animation trigger
         weaponAnimator.SetTrigger("Fire");
         

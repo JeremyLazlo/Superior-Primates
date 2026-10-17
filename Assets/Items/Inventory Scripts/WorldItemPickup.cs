@@ -6,7 +6,7 @@ public class WorldItemPickup : MonoBehaviour
 
     public ItemDefinition ItemDefinition => itemDefinition;
 
-    public bool TryPickup(InventoryController inventoryController)
+    public virtual bool TryPickup(InventoryController inventoryController)
     {
         if (inventoryController == null)
         {
