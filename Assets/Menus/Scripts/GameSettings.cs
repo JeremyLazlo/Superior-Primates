@@ -4,14 +4,21 @@ using UnityEngine;
 public class GameSettings
 {
     private const string VolumeKey = "settings.masterVolume";
-    private const string SensitivityKey = "settings.sensitivity";
+    private const string SensitivityKey = "settings.sensitivity.v2";
     private const string FullscreenKey = "settings.fullscreen";
+    private const string HorrorEffectsKey = "settings.horrorEffects";
 
     public static event Action Changed;
 
-    private static float masterVolume = 1f;
-    private static float sensitivityMultiplier = 1f;
-    private static bool fullscreen = true;
+    public const float DefaultVolume = 1f;
+    public const float DefaultSensitivity = 1f;
+    public const bool DefaultFullscreen = true;
+    public const bool DefaultHorrorEffects = true;
+
+    private static float masterVolume = DefaultVolume;
+    private static float sensitivityMultiplier = DefaultSensitivity;
+    private static bool fullscreen = DefaultFullscreen;
+    private static bool horrorEffects = DefaultHorrorEffects;
 
     public const float MinSensitivity = 0.25f;
     public const float MaxSensitivity = 3f;
@@ -51,12 +58,25 @@ public class GameSettings
         }
     }
 
+    // Menu fog, grain, flickering light and title glitches (MenuAtmosphere, TextFlicker, MenuButtonFX)
+    public static bool HorrorEffects
+    {
+        get => horrorEffects;
+        set
+        {
+            horrorEffects = value;
+            PlayerPrefs.SetInt(HorrorEffectsKey, horrorEffects ? 1 : 0);
+            Changed?.Invoke();
+        }
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Load()
     {
-        masterVolume = PlayerPrefs.GetFloat(VolumeKey, 1f);
-        sensitivityMultiplier = PlayerPrefs.GetFloat(SensitivityKey, 1f);
-        fullscreen = PlayerPrefs.GetInt(FullscreenKey, 1) == 1;
+        masterVolume = PlayerPrefs.GetFloat(VolumeKey, DefaultVolume);
+        sensitivityMultiplier = Mathf.Clamp(PlayerPrefs.GetFloat(SensitivityKey, DefaultSensitivity), MinSensitivity, MaxSensitivity);
+        fullscreen = PlayerPrefs.GetInt(FullscreenKey, DefaultFullscreen ? 1 : 0) == 1;
+        horrorEffects = PlayerPrefs.GetInt(HorrorEffectsKey, DefaultHorrorEffects ? 1 : 0) == 1;
 
         AudioListener.volume = masterVolume;
         Screen.fullScreen = fullscreen;
@@ -69,9 +89,10 @@ public class GameSettings
 
     public static void ResetToDefaults()
     {
-        MasterVolume = 1f;
-        SensitivityMultiplier = 1f;
-        Fullscreen = true;
+        MasterVolume = DefaultVolume;
+        SensitivityMultiplier = DefaultSensitivity;
+        Fullscreen = DefaultFullscreen;
+        HorrorEffects = DefaultHorrorEffects;
         Save();
     }
 }

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,11 +8,15 @@ public class PauseMenu : MonoBehaviour
     [Tooltip("The panel holding the pause buttons. Should start disabled.")]
     [SerializeField] private GameObject pausePanel;
 
+    [Tooltip("The OptionsPanel prefab (a copy is made when the level starts), or an options panel already in the scene.")]
+    [SerializeField] private OptionsMenu optionsMenu;
+
     [Tooltip("Optional: parent object holding Crosshaid / weapon sprite, hidden while paused.")]
     [SerializeField] private GameObject hud;
 
     [Header("Gameplay scripts to switch off while paused")]
-    [Tooltip("Drag in: MouseLook (Main Camera), PlayerMove + PlayerAim (Player), Gun (Gun).")]
+    [Tooltip("Leave empty to find MouseLook, PlayerMove, PlayerAim, Gun and InventoryToggle automatically, " +
+             "or drag in your own list.")]
     [SerializeField] private MonoBehaviour[] gameplayScripts;
 
     [Header("Scenes")]
@@ -26,9 +29,20 @@ public class PauseMenu : MonoBehaviour
     {
         IsPaused = false;
 
+        if (gameplayScripts == null || gameplayScripts.Length == 0)
+        {
+            gameplayScripts = FindGameplayScripts();
+        }
+
         if (pausePanel != null)
         {
             pausePanel.SetActive(false);
+        }
+
+        optionsMenu = OptionsMenu.CreateIfPrefab(optionsMenu, pausePanel);
+        if (optionsMenu != null)
+        {
+            optionsMenu.Close();
         }
 
         ApplyPauseState(false);
@@ -36,15 +50,25 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current == null)
+        if (Keyboard.current == null || !Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             return;
         }
 
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        // Escape inside Options goes back to the pause buttons instead of closing everything
+        if (IsPaused && optionsMenu != null && optionsMenu.IsOpen)
         {
-            TogglePause();
+            optionsMenu.Back();
+            return;
         }
+
+        // Something else (like the inventory) already froze the game, so don't pause on top of it
+        if (!IsPaused && Time.timeScale == 0f)
+        {
+            return;
+        }
+
+        TogglePause();
     }
 
     public void TogglePause()
@@ -80,6 +104,10 @@ public class PauseMenu : MonoBehaviour
     {
         IsPaused = false;
 
+        if (optionsMenu != null)
+        {
+            optionsMenu.Close();
+        }
         if (pausePanel!= null)
         {
             pausePanel.SetActive(false);
@@ -90,6 +118,14 @@ public class PauseMenu : MonoBehaviour
         }
 
         ApplyPauseState(false);
+    }
+
+    public void OpenOptions()
+    {
+        if (optionsMenu != null)
+        {
+            optionsMenu.Open(pausePanel); // Back in Options returns to the pause panel
+        }
     }
 
     public void LoadMainMenu()
@@ -108,8 +144,11 @@ public class PauseMenu : MonoBehaviour
     {
         ClearPauseState();
 
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false; // When in Unity Editor
-        // Application.Quit();
+#else
+        Application.Quit();
+#endif
     }
 
     private void ApplyPauseState(bool paused)
@@ -141,6 +180,19 @@ public class PauseMenu : MonoBehaviour
         AudioListener.pause = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    // Used when Gameplay Scripts is left empty (e.g. when the PauseMenu prefab is dropped into a level)
+    private static MonoBehaviour[] FindGameplayScripts()
+    {
+        return new MonoBehaviour[]
+        {
+            FindAnyObjectByType<MouseLook>(),
+            FindAnyObjectByType<PlayerMove>(),
+            FindAnyObjectByType<PlayerAim>(),
+            FindAnyObjectByType<Gun>(),
+            FindAnyObjectByType<InventoryToggle>(),
+        };
     }
 
     private void OnDestroy()
