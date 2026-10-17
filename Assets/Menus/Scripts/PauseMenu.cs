@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+// Escape pauses the level: freezes time, shows the pause panel and switches off the gameplay scripts.
+// Lives on the root of the PauseMenu prefab; each button's On Click calls one of the public methods below.
 public class PauseMenu : MonoBehaviour
 {
     [Header("UI")]
@@ -11,7 +13,7 @@ public class PauseMenu : MonoBehaviour
     [Tooltip("The OptionsPanel prefab (a copy is made when the level starts), or an options panel already in the scene.")]
     [SerializeField] private OptionsMenu optionsMenu;
 
-    [Tooltip("Optional: parent object holding Crosshaid / weapon sprite, hidden while paused.")]
+    [Tooltip("Optional: object holding the crosshair / weapon sprite, hidden while paused (e.g. PlayerUI).")]
     [SerializeField] private GameObject hud;
 
     [Header("Gameplay scripts to switch off while paused")]
@@ -22,11 +24,34 @@ public class PauseMenu : MonoBehaviour
     [Header("Scenes")]
     [SerializeField] private string mainMenuSceneName = "MainMenu";
 
-
     public static bool IsPaused { get; private set; }
+
+
+    private static PauseMenu inCharge;
+
+    // Which gameplay scripts were switched on when the game was paused, so Resume only turns those back on
+    private bool[] wasEnabled;
+
+    private void Awake()
+    {
+        bool stale = inCharge == null || inCharge.gameObject.scene != gameObject.scene;
+        bool betterSetUp = !stale && inCharge.pausePanel == null && pausePanel != null;
+        if (stale || betterSetUp)
+        {
+            inCharge = this;
+        }
+    }
 
     private void Start()
     {
+        if (inCharge != this)
+        {
+            Debug.LogWarning("There are two PauseMenu scripts in this scene. Using the one on '" + inCharge.name +
+                             "'. Delete the one on '" + name + "'.", this);
+            enabled = false;
+            return;
+        }
+
         IsPaused = false;
 
         if (gameplayScripts == null || gameplayScripts.Length == 0)
@@ -108,11 +133,11 @@ public class PauseMenu : MonoBehaviour
         {
             optionsMenu.Close();
         }
-        if (pausePanel!= null)
+        if (pausePanel != null)
         {
             pausePanel.SetActive(false);
         }
-        if (hud != null )
+        if (hud != null)
         {
             hud.SetActive(true);
         }
@@ -164,12 +189,30 @@ public class PauseMenu : MonoBehaviour
             return;
         }
 
-        foreach (MonoBehaviour script in gameplayScripts)
+        if (paused)
         {
-            if (script != null)
+            // Remember what was on, then switch everything off
+            wasEnabled = new bool[gameplayScripts.Length];
+            for (int i = 0; i < gameplayScripts.Length; i++)
             {
-                script.enabled = !paused;
+                if (gameplayScripts[i] != null)
+                {
+                    wasEnabled[i] = gameplayScripts[i].enabled;
+                    gameplayScripts[i].enabled = false;
+                }
             }
+        }
+        else if (wasEnabled != null)
+        {
+            // Only switch back on what was on before, so scripts another teammate turned off stay off
+            for (int i = 0; i < gameplayScripts.Length; i++)
+            {
+                if (gameplayScripts[i] != null && wasEnabled[i])
+                {
+                    gameplayScripts[i].enabled = true;
+                }
+            }
+            wasEnabled = null;
         }
     }
 
@@ -197,6 +240,12 @@ public class PauseMenu : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (inCharge != this)
+        {
+            return; // a switched-off duplicate: leave the game's pause state alone
+        }
+
+        inCharge = null;
         Time.timeScale = 1f;
         AudioListener.pause = false;
     }
