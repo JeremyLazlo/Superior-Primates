@@ -9,10 +9,7 @@ public class LevelPlacer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Vector3 endPos = SpawnStart();
-        Debug.Log(endPos);
-        endPos = SpawnLevel(0, endPos);
-        Debug.Log(endPos);
+        //add default values in case of null
     }
 
     // Update is called once per frame
@@ -21,22 +18,49 @@ public class LevelPlacer : MonoBehaviour
         
     }
 
+    //loads all levels
+    //inputs: number of levels to generate, seed to use
+    public void GenerateLevels(int numLevels, int seed)
+    {
+        Random.InitState(seed);
+        int levelIndex = 0; //index for levelList
+        Vector3 endPos = spawnStart();  //spawn intro room
+        Debug.Log(endPos);
+        for(int i=0; i<numLevels; i++)
+        {
+            //Choose random level in levelList
+            levelIndex = Random.Range(0, levelList.Length);
+            Debug.Log("Level index " + levelIndex);
+            endPos = spawnLevel(levelIndex, endPos);
+        }
+        
+        Debug.Log(endPos);
+    }
+
     //loads intro area level
     //returns vector of end position of newly generated map
-    Vector3 SpawnStart()
+    private Vector3 spawnStart()
     {
         Vector3 startPos = this.transform.position;
         Quaternion levelRot = Quaternion.identity;
         Instantiate(startingLevel, startPos, levelRot);
-        Transform findStartPos = startingLevel.transform.GetChild(0); //start position at (13, 0, 2)
+        //Transform findStartPos = startingLevel.transform.GetChild(0); //start position at (13, 0, 2)
         Transform findEndPos = startingLevel.transform.GetChild(1); //end position of starting level is (35, 0, 44)
-        return startPos + findEndPos.position ;
+        return startPos + findEndPos.position;
+    }
+
+    //gets starting position for player to spawn
+    public Vector3 getSpawnLocation()
+    {
+        Vector3 startPos = this.transform.position;
+        Transform findSpawnPos = startingLevel.transform.GetChild(0); //start position at (13, 0, 2)
+        return startPos + findSpawnPos.position;
     }
 
     //loads all other levels
     //inputs: number of next level, end position of currently generated map
     //returns vector of end position of newly generated map
-    Vector3 SpawnLevel(int levelNum, Vector3 currentEndPos)
+    private Vector3 spawnLevel(int levelNum, Vector3 currentEndPos)
     {
         Quaternion levelRot = Quaternion.identity;
         GameObject newLevel = levelList[levelNum];
