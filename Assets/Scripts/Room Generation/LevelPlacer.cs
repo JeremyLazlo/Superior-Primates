@@ -18,28 +18,23 @@ public class LevelPlacer : MonoBehaviour
         
     }
 
-    //loads all levels
-    //inputs: number of levels to generate, seed to use
-    public void GenerateLevels(int numLevels, int seed)
+    //gets starting position for player to spawn
+    public Vector3 getSpawnLocation()
     {
-        Random.InitState(seed);
-        int levelIndex = 0; //index for levelList
-        Vector3 endPos = spawnStart();  //spawn intro room
-        Debug.Log(endPos);
-        for(int i=0; i<numLevels; i++)
-        {
-            //Choose random level in levelList
-            levelIndex = Random.Range(0, levelList.Length);
-            Debug.Log("Level index " + levelIndex);
-            endPos = spawnLevel(levelIndex, endPos);
-        }
-        
-        Debug.Log(endPos);
+        Vector3 startPos = this.transform.position;
+        Transform findSpawnPos = startingLevel.transform.GetChild(0); //start position at (13, 0, 2)
+        return startPos + findSpawnPos.position;
+    }
+
+    //get number of levels in levelList
+    public int getNumLevels()
+    {
+        return levelList.Length;
     }
 
     //loads intro area level
     //returns vector of end position of newly generated map
-    private Vector3 spawnStart()
+    public Vector3 spawnStart()
     {
         Vector3 startPos = this.transform.position;
         Quaternion levelRot = Quaternion.identity;
@@ -49,18 +44,10 @@ public class LevelPlacer : MonoBehaviour
         return startPos + findEndPos.position;
     }
 
-    //gets starting position for player to spawn
-    public Vector3 getSpawnLocation()
-    {
-        Vector3 startPos = this.transform.position;
-        Transform findSpawnPos = startingLevel.transform.GetChild(0); //start position at (13, 0, 2)
-        return startPos + findSpawnPos.position;
-    }
-
     //loads all other levels
     //inputs: number of next level, end position of currently generated map
     //returns vector of end position of newly generated map
-    private Vector3 spawnLevel(int levelNum, Vector3 currentEndPos)
+    public Vector3 spawnLevel(int levelNum, Vector3 currentEndPos)
     {
         Quaternion levelRot = Quaternion.identity;
         GameObject newLevel = levelList[levelNum];

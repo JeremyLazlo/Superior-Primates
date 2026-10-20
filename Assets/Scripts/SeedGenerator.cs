@@ -16,7 +16,7 @@ public class SeedGenerator : ScriptableObject
     public int generateNewSeed()
     {
         seed = Random.Range(0, 1000000);
-        Debug.Log("Seed = " + seed);
+        //Debug.Log("Seed = " + seed);
         return seed;
     }
 }

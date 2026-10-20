@@ -23,10 +23,24 @@ public class MapGenerator : MonoBehaviour
 
     void GenerateLevels(int numLevels)
     {
+        //places levels in world
         Debug.Log("Using seed " + seed);
-        levelGen.GenerateLevels(numLevels, seed);
+        Random.InitState(seed);
+        int levelIndex = 0; //index for levelList
+        Vector3 endPos = levelGen.spawnStart();  //spawn intro room
+        Debug.Log(endPos);
+        for(int i=0; i<numLevels; i++)
+        {
+            //Choose random level in levelList
+            levelIndex = Random.Range(0, levelGen.getNumLevels());
+            Debug.Log("Level index " + levelIndex);
+            endPos = levelGen.spawnLevel(levelIndex, endPos);
+        }
+        
+        Debug.Log(endPos);
     }
 
+    //teleports player to starting point of Intro Rooms
     void spawnAtStart()
     {
         GameObject player = GameObject.Find("Player");
