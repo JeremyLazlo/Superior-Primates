@@ -17126,13 +17126,23 @@ MonoBehaviour:
   detectionRange: 10
   attackRange: 2
   loseTargetRange: 15
+  viewAngle: 110
+  closeSenseRange: 2.5
+  eyeHeight: 0.5
+  sightMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   patrolSpeed: 1.5
   chaseSpeed: 2.5
+  investigateSpeed: 2
+  searchDuration: 4
+  searchTurnSpeed: 90
   attackDamage: 10
   attackCooldown: 1.5
   patrolPoints:
   - {fileID: 1675494249}
   - {fileID: 2030394142}
+  showStateLabel: 1
 --- !u!54 &400494500
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -27186,11 +27196,21 @@ MonoBehaviour:
   detectionRange: 5
   attackRange: 2
   loseTargetRange: 15
+  viewAngle: 110
+  closeSenseRange: 2.5
+  eyeHeight: 0.5
+  sightMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   patrolSpeed: 1.5
   chaseSpeed: 2.5
+  investigateSpeed: 2
+  searchDuration: 4
+  searchTurnSpeed: 90
   attackDamage: 10
   attackCooldown: 1.5
   patrolPoints: []
+  showStateLabel: 1
 --- !u!54 &505673524
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -27306,13 +27326,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505673522}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -4.166, y: 6.95, z: 7.501}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!195 &505673529
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -27597,13 +27617,23 @@ MonoBehaviour:
   detectionRange: 10
   attackRange: 2
   loseTargetRange: 15
+  viewAngle: 110
+  closeSenseRange: 2.5
+  eyeHeight: 0.5
+  sightMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   patrolSpeed: 1.5
   chaseSpeed: 2.5
+  investigateSpeed: 2
+  searchDuration: 4
+  searchTurnSpeed: 90
   attackDamage: 10
   attackCooldown: 1.5
   patrolPoints:
   - {fileID: 1415660328}
   - {fileID: 664314169}
+  showStateLabel: 1
 --- !u!54 &514148341
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -27719,13 +27749,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 514148339}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 1.29, y: 1, z: 35.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!195 &514148346
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -34553,13 +34583,23 @@ MonoBehaviour:
   detectionRange: 10
   attackRange: 2
   loseTargetRange: 15
+  viewAngle: 110
+  closeSenseRange: 2.5
+  eyeHeight: 0.5
+  sightMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   patrolSpeed: 1.5
   chaseSpeed: 2.5
+  investigateSpeed: 2
+  searchDuration: 4
+  searchTurnSpeed: 90
   attackDamage: 10
   attackCooldown: 1.5
   patrolPoints:
   - {fileID: 339487785}
   - {fileID: 1433074851}
+  showStateLabel: 1
 --- !u!54 &705540572
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -34675,13 +34715,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705540570}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 4.3, y: 1, z: 10.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!195 &705540577
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -72189,13 +72229,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264819479}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 1, z: 13.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1264819485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72212,11 +72252,21 @@ MonoBehaviour:
   detectionRange: 10
   attackRange: 2
   loseTargetRange: 15
+  viewAngle: 110
+  closeSenseRange: 2.5
+  eyeHeight: 0.5
+  sightMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   patrolSpeed: 1.5
   chaseSpeed: 2.5
+  investigateSpeed: 2
+  searchDuration: 4
+  searchTurnSpeed: 90
   attackDamage: 10
   attackCooldown: 1.5
   patrolPoints: []
+  showStateLabel: 1
 --- !u!195 &1264819486
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -102394,11 +102444,21 @@ MonoBehaviour:
   detectionRange: 10
   attackRange: 2
   loseTargetRange: 15
+  viewAngle: 110
+  closeSenseRange: 2.5
+  eyeHeight: 0.5
+  sightMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   patrolSpeed: 1.5
   chaseSpeed: 2.5
+  investigateSpeed: 2
+  searchDuration: 4
+  searchTurnSpeed: 90
   attackDamage: 10
   attackCooldown: 1.5
   patrolPoints: []
+  showStateLabel: 1
 --- !u!54 &1960921885
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -102514,13 +102574,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960921883}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 5.04, y: 1, z: 27.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!195 &1960921890
 NavMeshAgent:
   m_ObjectHideFlags: 0
