@@ -60,6 +60,41 @@ public class Gun : MonoBehaviour
     {
         if (playerCamera == null)
             return;
+        // out of ammo
+        if (TryGetComponent(out GunAmmo ammo) && !ammo.TryUseRound()) return;
+
+        //gun fire animation trigger
+        weaponAnimator.SetTrigger("Fire");
+        
+        //play ShotGun sound effect
+        shotAudio.Stop();
+        shotAudio.Play();
+
+        foreach (var enemy in enemyManager.enemiesInTrigger)
+        {
+            var dir = enemy.transform.position - transform.position;
+
+            RaycastHit hit;
+            if (Physics.Raycast(
+                transform.position,
+                dir,
+                out hit,
+                range * 1.5f,
+                raycastLayerMask))
+            {
+                if (hit.transform == enemy.transform)
+                {
+                    enemy.TakeDamage(damage);
+
+                    Debug.DrawRay(
+                        transform.position,
+                        dir,
+                        Color.red,
+                        1f
+                    );
+                }
+            }
+        }
 
         nextTimeToFire = Time.time + fireRate;
 
