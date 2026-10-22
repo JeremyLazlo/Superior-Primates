@@ -28,6 +28,7 @@ public class LockedDoor : MonoBehaviour
         {
             inventoryController = GameObject.FindGameObjectWithTag("InvController").GetComponent<InventoryController>();
             Debug.LogError("Missing InventoryController for LockedDoor.");
+            return;
         }
         if(other.CompareTag("Player"))
         {
