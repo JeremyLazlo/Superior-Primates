@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Responsible for generating levels
 public class LevelPlacer : MonoBehaviour
 {
     [SerializeField] private GameObject[] levelList;

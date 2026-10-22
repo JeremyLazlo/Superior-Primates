@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class Inventory
 {
@@ -169,5 +170,20 @@ public class Inventory
         // Rotation is invalid; restore the original orientation.
         item.inventoryRotation = originalRotation;
         return false;
+    }
+
+    //Returns true if requested item is in inventory
+    //NOTE: currently checks item names. May need to change later??
+    public ItemInstance HasItem(String name)
+    {
+        foreach(ItemInstance i in items)
+        {
+            //Check for matching name
+            if(i.def.itemName.Equals(name))
+            {
+                return i;
+            }
+        }
+        return null;
     }
 }
