@@ -11,7 +11,7 @@ public class MapGenerator : MonoBehaviour
     {
         levelGen = this.GetComponent<LevelPlacer>();
         seed = seedGen.generateNewSeed();
-        GenerateLevels(4);
+        //GenerateLevels(4);
         //spawnAtStart();
     }
 
