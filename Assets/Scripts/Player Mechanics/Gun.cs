@@ -33,13 +33,16 @@ public class Gun : MonoBehaviour
     void Start()
     {
         gunTrigger = GetComponent<BoxCollider>();
-        gunTrigger.size = new Vector3(1, verticalRange, range);
-        gunTrigger.center = new Vector3(0, 0, range * 0.5f);
+        if (gunTrigger != null)
+        {
+            gunTrigger.size = new Vector3(1, verticalRange, range);
+            gunTrigger.center = new Vector3(0, 0, range * 0.5f);
+        }
     }
 
     void Update()
     {
-        if (!shootingEnabled)
+        if (!shootingEnabled || Time.timeScale <= 0f)
             return;
 
         if (Mouse.current == null)
@@ -54,6 +57,8 @@ public class Gun : MonoBehaviour
     public void SetShootingEnabled(bool enabled)
     {
         shootingEnabled = enabled;
+        if (TryGetComponent(out GunAmmo ammo))
+            ammo.SetShootingEnabled(enabled);
     }
 
     void Fire()
@@ -62,39 +67,6 @@ public class Gun : MonoBehaviour
             return;
         // out of ammo
         if (TryGetComponent(out GunAmmo ammo) && !ammo.TryUseRound()) return;
-
-        //gun fire animation trigger
-        weaponAnimator.SetTrigger("Fire");
-        
-        //play ShotGun sound effect
-        shotAudio.Stop();
-        shotAudio.Play();
-
-        foreach (var enemy in enemyManager.enemiesInTrigger)
-        {
-            var dir = enemy.transform.position - transform.position;
-
-            RaycastHit hit;
-            if (Physics.Raycast(
-                transform.position,
-                dir,
-                out hit,
-                range * 1.5f,
-                raycastLayerMask))
-            {
-                if (hit.transform == enemy.transform)
-                {
-                    enemy.TakeDamage(damage);
-
-                    Debug.DrawRay(
-                        transform.position,
-                        dir,
-                        Color.red,
-                        1f
-                    );
-                }
-            }
-        }
 
         nextTimeToFire = Time.time + fireRate;
 
@@ -147,6 +119,9 @@ public class Gun : MonoBehaviour
             if (bulletTrailPrefab != null)
                 StartCoroutine(SpawnTrail(trailStart, endPoint));
         }
+
+        if (ammo != null && ammo.currentAmmo == 0)
+            ammo.TryStartReload();
     }
 
     IEnumerator SpawnTrail(Vector3 startPoint, Vector3 endPoint)
@@ -183,7 +158,7 @@ public class Gun : MonoBehaviour
     {
         Enemy enemy = other.transform.GetComponent<Enemy>();
 
-        if (enemy)
+        if (enemy && enemyManager != null)
         {
             enemyManager.AddEnemy(enemy);
         }
@@ -193,7 +168,7 @@ public class Gun : MonoBehaviour
     {
         Enemy enemy = other.transform.GetComponent<Enemy>();
 
-        if (enemy)
+        if (enemy && enemyManager != null)
         {
             enemyManager.RemoveEnemy(enemy);
         }

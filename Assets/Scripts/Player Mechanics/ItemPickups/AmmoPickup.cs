@@ -11,10 +11,6 @@ public class AmmoPickup : WorldItemPickup
     {
         int left = amount;
 
-        GunAmmo gunAmmo = FindAnyObjectByType<GunAmmo>();
-        if (gunAmmo != null && gunAmmo.Uses(ItemDefinition))
-            left = gunAmmo.AddAmmo(left);
-
         if (left > 0)
             left = AddToInventory(inventoryController, left);
 
