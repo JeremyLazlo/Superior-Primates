@@ -174,16 +174,16 @@ public class Inventory
 
     //Returns true if requested item is in inventory
     //NOTE: currently checks item names. May need to change later??
-    public bool HasItem(String name)
+    public ItemInstance HasItem(String name)
     {
         foreach(ItemInstance i in items)
         {
             //Check for matching name
             if(i.def.itemName.Equals(name))
             {
-                return true;
+                return i;
             }
         }
-        return false;
+        return null;
     }
 }

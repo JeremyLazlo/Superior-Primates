@@ -47,8 +47,18 @@ public class InventoryController : MonoBehaviour
         return success;
     }
 
+    //Deletes key in inventory when using to unlock door
+    public void UseKey(ItemInstance item)
+    {
+        if(item.def.name.Equals("Key"))
+        {
+            inventory.RemoveItem(item);
+            inventoryUI.RefreshItems();
+        }
+    }
+
     //Returns true if item with name 'name' is found in inventory
-    public bool FindItem(String name)
+    public ItemInstance FindItem(String name)
     {
         return inventory.HasItem(name);
     }
