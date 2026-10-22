@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
@@ -44,5 +45,11 @@ public class InventoryController : MonoBehaviour
         }
 
         return success;
+    }
+
+    //Returns true if item with name 'name' is found in inventory
+    public bool FindItem(String name)
+    {
+        return inventory.HasItem(name);
     }
 }
