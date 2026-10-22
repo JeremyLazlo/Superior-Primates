@@ -24,14 +24,19 @@ public class LockedDoor : MonoBehaviour
     //Attempt to open locked door when approached
     void OnTriggerEnter(Collider other)
     {
+        //Fetch inventory controller if not already done (bad fix)
         if(inventoryController == null)
         {
             inventoryController = GameObject.FindGameObjectWithTag("InvController").GetComponent<InventoryController>();
-            Debug.LogError("Missing InventoryController for LockedDoor.");
-            return;
+            Debug.LogWarning("InventoryController missing for LockedDoor, had to fetch.");
         }
         if(other.CompareTag("Player"))
         {
+            if(inventoryController == null)
+            {
+                Debug.LogError("Missing InventoryController for LockedDoor.");
+                return;
+            }
             //Open door if key is present
             ItemInstance key = inventoryController.FindItem("Key");
             if(key != null)
