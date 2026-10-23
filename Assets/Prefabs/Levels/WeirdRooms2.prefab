@@ -1484,8 +1484,8 @@ Transform:
   m_GameObject: {fileID: 796014833385185823}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.5, y: 2, z: -20.25}
-  m_LocalScale: {x: 1, y: 4, z: 8.5}
+  m_LocalPosition: {x: 5.3999996, y: 2, z: -20.25}
+  m_LocalScale: {x: 0.8, y: 4, z: 8.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3871665603690309079}
@@ -2380,8 +2380,8 @@ Transform:
   m_GameObject: {fileID: 1885591376803720642}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5, y: 2, z: 25.5}
-  m_LocalScale: {x: 1, y: 4, z: 7}
+  m_LocalPosition: {x: 4.5, y: 2, z: 25.699999}
+  m_LocalScale: {x: 1, y: 4, z: 6.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7743211540648466647}
@@ -2700,8 +2700,9 @@ GameObject:
   - component: {fileID: 1526539272681333801}
   - component: {fileID: 8756893538056853277}
   - component: {fileID: 3481682554037496345}
+  - component: {fileID: 3983356996481592417}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: GroundFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2801,6 +2802,38 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &3983356996481592417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021061352281321115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 5a52adeb74282d44890f118741f71347, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &2125841584179712924
 GameObject:
   m_ObjectHideFlags: 0
@@ -2941,8 +2974,8 @@ Transform:
   m_GameObject: {fileID: 2243446538823517380}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.75, y: 2, z: -19.5}
-  m_LocalScale: {x: 0.5, y: 4, z: 13}
+  m_LocalPosition: {x: 16.75, y: 2, z: -19.3}
+  m_LocalScale: {x: 0.5, y: 4, z: 13.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3871665603690309079}
@@ -5548,8 +5581,8 @@ Transform:
   m_GameObject: {fileID: 4201638512727691336}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5, y: 2, z: 20.25}
-  m_LocalScale: {x: 3, y: 4, z: 1.5}
+  m_LocalPosition: {x: 4.7000003, y: 2, z: 20.25}
+  m_LocalScale: {x: 2.6, y: 4, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7743211540648466647}
@@ -8796,8 +8829,8 @@ Transform:
   m_GameObject: {fileID: 6523544919414870002}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11, y: 2, z: -29}
-  m_LocalScale: {x: 10, y: 4, z: 1}
+  m_LocalPosition: {x: 11.2, y: 2, z: -29}
+  m_LocalScale: {x: 9.6, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3871665603690309079}
@@ -9020,8 +9053,8 @@ Transform:
   m_GameObject: {fileID: 6612820556501339306}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.5, y: 2, z: -12}
-  m_LocalScale: {x: 5, y: 4, z: 2}
+  m_LocalPosition: {x: 14.5, y: 2, z: -11.8}
+  m_LocalScale: {x: 5, y: 4, z: 1.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3871665603690309079}
@@ -11095,8 +11128,8 @@ Transform:
   m_GameObject: {fileID: 8120433759741480996}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.25, y: 2, z: -30.5}
-  m_LocalScale: {x: 6.5, y: 4, z: 2}
+  m_LocalPosition: {x: 9.45, y: 2, z: -30.5}
+  m_LocalScale: {x: 6.1, y: 4, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3871665603690309079}
