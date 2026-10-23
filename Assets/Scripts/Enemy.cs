@@ -36,6 +36,14 @@ public class Enemy : MonoBehaviour
     public float attackCooldown = 1.5f; // seconds between hits so we're not attacking every frame
     private float lastAttackTime = -999f;
 
+    [Header("Ranged Enemy Settings")]
+    public bool isRanged = false;        // tick this to make a ranged enemy
+    public float shootRange = 9f;        // ranged enemies stop and shoot once they are inside this distance
+    public float tooCloseRange = 4f;     // ranged enemies back away if the player gets closer than this
+    public float retreatDistance = 4f;   // how far they try to back off each time
+    public GameObject projectilePrefab;  // needs the EnemyProjectile script, if empty the shot just hits instantly
+    public Transform firePoint;          // optional spot the shot comes from, uses the enemy's eye position if empty
+
     [Header("Patrol (optional)")]
     public Transform[] patrolPoints; // leave empty if this enemy should just stand still until it spots you
     private int currentPatrolIndex = 0;
@@ -110,12 +118,20 @@ public class Enemy : MonoBehaviour
                 if (stillSees)
                 {
                     lastKnownPosition = player.position; // keep updating where they are so enemy can chase them if player runs behind a wall
-                    agent.SetDestination(player.position); // keep updating target every frame since player moves
 
-                    if (distanceToPlayer <= attackRange)
+                    if (isRanged)
                     {
-                        currentState = State.Attack;
-                        lastAttackTime = Time.time; // first swing waits a full cooldown, gives the player a beat
+                        ChaseRanged(distanceToPlayer); // ranged enemies keep their distance instead of running up to the player
+                    }
+                    else
+                    {
+                        agent.SetDestination(player.position); // keep updating target every frame since player moves
+
+                        if (distanceToPlayer <= attackRange)
+                        {
+                            currentState = State.Attack;
+                            lastAttackTime = Time.time; // first swing waits a full cooldown, gives the player a beat
+                        }
                     }
                 }
                 else
@@ -135,14 +151,25 @@ public class Enemy : MonoBehaviour
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
                 }
 
-                // no hitting through walls, and chase again if they back off
-                if (!HasClearPath() || distanceToPlayer > attackRange)
+                // no hitting through walls, and chase again if they back off (ranged enemies use their shoot range instead)
+                float maxAttackDistance = isRanged ? shootRange : attackRange;
+                if (!HasClearPath() || distanceToPlayer > maxAttackDistance)
                 {
                     currentState = State.Chase;
                     break;
                 }
 
-                if (Time.time >= lastAttackTime + attackCooldown)
+                // ranged enemies try to back away if the player gets too close, if they can't (cornered) they keep shooting
+                if (isRanged && distanceToPlayer < tooCloseRange && TryRetreat())
+                {
+                    currentState = State.Chase;
+                    break;
+                }
+
+                // ranged enemies only fire once they are actually turned toward the player
+                bool facingPlayer = Vector3.Angle(transform.forward, dir) < 20f;
+
+                if (Time.time >= lastAttackTime + attackCooldown && (!isRanged || facingPlayer))
                 {
                     AttackPlayer();
                     lastAttackTime = Time.time;
@@ -179,6 +206,65 @@ public class Enemy : MonoBehaviour
                     agent.speed = patrolSpeed; // and slow back down
                 }
                 break;
+        }
+    }
+
+    // ranged chase: back away if too close, close the gap if too far, otherwise stop and shoot
+    void ChaseRanged(float distanceToPlayer)
+    {
+        if (distanceToPlayer < tooCloseRange)
+        {
+            if (!TryRetreat())
+            {
+                currentState = State.Attack; // nowhere to run, so fight back
+                lastAttackTime = Time.time;
+            }
+        }
+        else if (distanceToPlayer > shootRange)
+        {
+            agent.SetDestination(player.position); // too far to shoot, get closer
+        }
+        else
+        {
+            currentState = State.Attack; // in the sweet spot, stop and shoot
+            lastAttackTime = Time.time;
+        }
+    }
+
+    // walks directly away from the player, returns false if there is no walkable spot to back up to
+    bool TryRetreat()
+    {
+        Vector3 away = transform.position - player.position;
+        away.y = 0f;
+
+        if (away == Vector3.zero) return false;
+
+        Vector3 target = transform.position + away.normalized * retreatDistance;
+
+        if (NavMesh.SamplePosition(target, out NavMeshHit navHit, 2f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(navHit.position);
+            return true;
+        }
+
+        return false;
+    }
+
+    // fires a projectile at where the player is right now, so moving makes you dodge it
+    void FireRanged()
+    {
+        Vector3 origin = firePoint != null ? firePoint.position : transform.position + Vector3.up * eyeHeight + transform.forward * 0.6f;
+        Vector3 direction = player.position - origin;
+
+        if (projectilePrefab != null)
+        {
+            GameObject shot = Instantiate(projectilePrefab, origin, Quaternion.LookRotation(direction));
+            EnemyProjectile projectile = shot.GetComponent<EnemyProjectile>();
+            if (projectile != null) projectile.Launch(direction, attackDamage);
+        }
+        else if (playerHealth != null)
+        {
+            playerHealth.DamagePlayer(attackDamage); // no prefab assigned yet, so just hit instantly
         }
     }
 
@@ -262,6 +348,12 @@ public class Enemy : MonoBehaviour
 
     void AttackPlayer()
     {
+        if (isRanged)
+        {
+            FireRanged();
+            return;
+        }
+
         // hits the player through PlayerHealth script
         if (playerHealth != null)
         {
@@ -300,6 +392,14 @@ public class Enemy : MonoBehaviour
 
         Gizmos.color = Color.green; // green = the way the enemy is facing
         Gizmos.DrawRay(transform.position, transform.forward * 2f);
+
+        if (isRanged)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(transform.position, shootRange); // magenta = starts shooting inside this
+            Gizmos.color = new Color(1f, 0.5f, 0f);
+            Gizmos.DrawWireSphere(transform.position, tooCloseRange); // orange = backs away inside this
+        }
     }
 
     // shows what each enemy is doing above its head, only while the game is running, for testing and tuning
