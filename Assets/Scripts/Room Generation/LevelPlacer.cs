@@ -19,7 +19,7 @@ public class LevelPlacer : MonoBehaviour
         
     }
 
-    //gets starting position for player to spawn
+    //get starting position for player to spawn
     public Vector3 getSpawnLocation()
     {
         Vector3 startPos = this.transform.position;
@@ -31,6 +31,12 @@ public class LevelPlacer : MonoBehaviour
     public int getNumLevels()
     {
         return levelList.Length;
+    }
+
+    //get level prefab at index in levelList
+    public GameObject getLevelInList(int index)
+    {
+        return levelList[index];
     }
 
     //loads intro area level
