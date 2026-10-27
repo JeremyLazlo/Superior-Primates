@@ -3635,6 +3635,18 @@ MonoBehaviour:
   retreatDistance: 4
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+  alertSound: {fileID: 0}
+  investigateSound: {fileID: 0}
+  idleSound: {fileID: 0}
+  attackSound: {fileID: 0}
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  idleSoundMinDelay: 6
+  idleSoundMaxDelay: 14
+  soundMaxDistance: 20
+  footstepClip: {fileID: 8300000, guid: c3a987c326e744702af84f72067cf34d, type: 3}
+  stepDistance: 1.2
+  footstepVolume: 0.5
   patrolPoints:
   - {fileID: 4362791834356517739}
   - {fileID: 4386247039994318930}
@@ -7502,6 +7514,18 @@ MonoBehaviour:
   retreatDistance: 4
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+  alertSound: {fileID: 0}
+  investigateSound: {fileID: 0}
+  idleSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 6b26a54ef5ced4ed59881c1f23ba19a8, type: 3}
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  idleSoundMinDelay: 6
+  idleSoundMaxDelay: 14
+  soundMaxDistance: 20
+  footstepClip: {fileID: 8300000, guid: c3a987c326e744702af84f72067cf34d, type: 3}
+  stepDistance: 1.2
+  footstepVolume: 0.5
   patrolPoints:
   - {fileID: 6679053421739221114}
   - {fileID: 5540958590663820781}
@@ -7931,6 +7955,18 @@ MonoBehaviour:
   retreatDistance: 4
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+  alertSound: {fileID: 0}
+  investigateSound: {fileID: 0}
+  idleSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 6b26a54ef5ced4ed59881c1f23ba19a8, type: 3}
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  idleSoundMinDelay: 6
+  idleSoundMaxDelay: 14
+  soundMaxDistance: 20
+  footstepClip: {fileID: 8300000, guid: c3a987c326e744702af84f72067cf34d, type: 3}
+  stepDistance: 1.2
+  footstepVolume: 0.5
   patrolPoints: []
   showStateLabel: 1
 --- !u!195 &972503658743361648
@@ -8358,6 +8394,18 @@ MonoBehaviour:
   retreatDistance: 4
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+  alertSound: {fileID: 0}
+  investigateSound: {fileID: 0}
+  idleSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 6b26a54ef5ced4ed59881c1f23ba19a8, type: 3}
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  idleSoundMinDelay: 6
+  idleSoundMaxDelay: 14
+  soundMaxDistance: 20
+  footstepClip: {fileID: 8300000, guid: c3a987c326e744702af84f72067cf34d, type: 3}
+  stepDistance: 1.2
+  footstepVolume: 0.5
   patrolPoints: []
   showStateLabel: 1
 --- !u!195 &8901226081277805107
@@ -9681,6 +9729,18 @@ MonoBehaviour:
   retreatDistance: 4
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+  alertSound: {fileID: 0}
+  investigateSound: {fileID: 0}
+  idleSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 6b26a54ef5ced4ed59881c1f23ba19a8, type: 3}
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  idleSoundMinDelay: 6
+  idleSoundMaxDelay: 14
+  soundMaxDistance: 20
+  footstepClip: {fileID: 8300000, guid: c3a987c326e744702af84f72067cf34d, type: 3}
+  stepDistance: 1.2
+  footstepVolume: 0.5
   patrolPoints:
   - {fileID: 6296644078266705977}
   - {fileID: 1467956660882960092}
@@ -9998,6 +10058,18 @@ MonoBehaviour:
   retreatDistance: 4
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+  alertSound: {fileID: 0}
+  investigateSound: {fileID: 0}
+  idleSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 6b26a54ef5ced4ed59881c1f23ba19a8, type: 3}
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  idleSoundMinDelay: 6
+  idleSoundMaxDelay: 14
+  soundMaxDistance: 20
+  footstepClip: {fileID: 8300000, guid: c3a987c326e744702af84f72067cf34d, type: 3}
+  stepDistance: 1.2
+  footstepVolume: 0.5
   patrolPoints: []
   showStateLabel: 1
 --- !u!195 &8252217011029622435
@@ -12307,6 +12379,18 @@ MonoBehaviour:
   retreatDistance: 4
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+  alertSound: {fileID: 0}
+  investigateSound: {fileID: 0}
+  idleSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 6b26a54ef5ced4ed59881c1f23ba19a8, type: 3}
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  idleSoundMinDelay: 6
+  idleSoundMaxDelay: 14
+  soundMaxDistance: 20
+  footstepClip: {fileID: 8300000, guid: c3a987c326e744702af84f72067cf34d, type: 3}
+  stepDistance: 1.2
+  footstepVolume: 0.5
   patrolPoints:
   - {fileID: 808380654396098045}
   - {fileID: 3932704591059436287}
@@ -12893,6 +12977,18 @@ MonoBehaviour:
   retreatDistance: 4
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+  alertSound: {fileID: 0}
+  investigateSound: {fileID: 0}
+  idleSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 6b26a54ef5ced4ed59881c1f23ba19a8, type: 3}
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  idleSoundMinDelay: 6
+  idleSoundMaxDelay: 14
+  soundMaxDistance: 20
+  footstepClip: {fileID: 8300000, guid: c3a987c326e744702af84f72067cf34d, type: 3}
+  stepDistance: 1.2
+  footstepVolume: 0.5
   patrolPoints: []
   showStateLabel: 1
 --- !u!195 &5094467183629030343

@@ -44,6 +44,25 @@ public class Enemy : MonoBehaviour
     public GameObject projectilePrefab;  // needs the EnemyProjectile script, if empty the shot just hits instantly
     public Transform firePoint;          // optional spot the shot comes from, uses the enemy's eye position if empty
 
+    [Header("Sounds (optional)")]
+    public AudioClip alertSound;         // plays when the enemy spots the player and starts chasing
+    public AudioClip investigateSound;   // plays when the enemy loses the player and goes to check the last spot
+    public AudioClip idleSound;          // groans every so often while the enemy hasn't noticed the player
+    public AudioClip attackSound;        // plays on every swing, or every shot for ranged enemies
+    public AudioClip hurtSound;          // plays when the enemy gets shot
+    public AudioClip deathSound;         // plays when the enemy dies
+    public float idleSoundMinDelay = 6f;   // shortest wait between idle sounds
+    public float idleSoundMaxDelay = 14f;  // longest wait between idle sounds
+    public float soundMaxDistance = 20f;   // how far away the player can still hear this enemy
+    private AudioSource audioSource;
+    private float nextIdleSoundTime;
+
+    // FOOTSTEPS
+    public AudioClip footstepClip;         // one single step sound, played again every time the enemy has walked stepDistance
+    public float stepDistance = 1.2f;      // how far the enemy walks between steps, lower = faster steps
+    public float footstepVolume = 0.5f;    // quieter than the player's steps so you hear them as a warning
+    private float distanceSinceLastStep;
+
     [Header("Patrol (optional)")]
     public Transform[] patrolPoints; // leave empty if this enemy should just stand still until it spots you
     private int currentPatrolIndex = 0;
@@ -70,6 +89,15 @@ public class Enemy : MonoBehaviour
         spawnPosition = transform.position; // remember where we started
         spawnRotation = transform.rotation; // and which way we were facing
 
+        // sounds come from an AudioSource on the enemy, add one if the prefab doesn't have it yet
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1f; // fully 3D so you can tell where the enemy is from the sound
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.maxDistance = soundMaxDistance;
+        nextIdleSoundTime = Time.time + Random.Range(idleSoundMinDelay, idleSoundMaxDelay);
+
         // enemies spawned from a prefab can't have this assigned in the Inspector, so find it ourselves
         if (enemyManager == null) enemyManager = FindAnyObjectByType<EnemyManager>();
 
@@ -91,6 +119,7 @@ public class Enemy : MonoBehaviour
         if(enemyHealth <= 0) // Check if the enemy's health is zero or below
         {
             if (enemyManager != null) enemyManager.RemoveEnemy(this); // Remove the enemy from the list in EnemyManager
+            if (deathSound != null) AudioSource.PlayClipAtPoint(deathSound, transform.position); // plays at the spot, the enemy's own AudioSource is about to be destroyed
             Destroy(gameObject);
             return;
         }
@@ -100,10 +129,13 @@ public class Enemy : MonoBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
+        PlayFootsteps(); // FOOTSTEPS
+
         switch (currentState)
         {
             case State.Idle:
                 Patrol();
+                MaybePlayIdleSound();
 
                 if (CanSeePlayer())
                 {
@@ -194,6 +226,7 @@ public class Enemy : MonoBehaviour
 
             case State.Search:
                 transform.Rotate(0f, searchTurnSpeed * Time.deltaTime, 0f); // look around
+                MaybePlayIdleSound();
                 searchTimer += Time.deltaTime;
 
                 if (CanSeePlayer())
@@ -268,8 +301,45 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // plays a sound from the enemy, does nothing if no clip was assigned
+    void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.pitch = 1f; // FOOTSTEPS: footsteps nudge the pitch a little, this puts it back for the other sounds
+            audioSource.PlayOneShot(clip);
+        }
+    }
+
+    // FOOTSTEPS
+    // plays one step sound each time the enemy has walked stepDistance, it uses the agent's real speed so it goes quiet when the enemy stops
+    void PlayFootsteps()
+    {
+        if (footstepClip == null || audioSource == null) return;
+
+        distanceSinceLastStep += agent.velocity.magnitude * Time.deltaTime;
+
+        if (distanceSinceLastStep >= stepDistance)
+        {
+            distanceSinceLastStep = 0f;
+            audioSource.pitch = Random.Range(0.9f, 1.1f); // small random change so every step doesn't sound identical
+            audioSource.PlayOneShot(footstepClip, footstepVolume);
+        }
+    }
+
+    // random groans while the enemy hasn't noticed the player, keeps them from being silent
+    void MaybePlayIdleSound()
+    {
+        if (idleSound == null || Time.time < nextIdleSoundTime) return;
+
+        PlaySound(idleSound);
+        nextIdleSoundTime = Time.time + Random.Range(idleSoundMinDelay, idleSoundMaxDelay);
+    }
+
     void StartChase()
     {
+        if (currentState != State.Chase && currentState != State.Attack) PlaySound(alertSound); // only when we first spot them, not every time we go back into chase
+
         currentState = State.Chase;
         agent.speed = chaseSpeed; // Initiate the chase speed (faster than patrol)
         lastKnownPosition = player.position; // so if we get shot from out of sight we still know where to look
@@ -279,6 +349,7 @@ public class Enemy : MonoBehaviour
     {
         lastKnownPosition = position;
         currentState = State.Investigate;
+        PlaySound(investigateSound);
         agent.speed = investigateSpeed;
         agent.SetDestination(position);
     }
@@ -348,6 +419,8 @@ public class Enemy : MonoBehaviour
 
     void AttackPlayer()
     {
+        PlaySound(attackSound); // swing or shot sound, the same for melee and ranged
+
         if (isRanged)
         {
             FireRanged();
@@ -366,6 +439,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage) // Method to apply damage to the enemy
     {
         enemyHealth -= damage; // Reduce the enemy's health by the damage amount
+        if (enemyHealth > 0) PlaySound(hurtSound); // the death sound covers the killing shot
 
         // getting shot tells us where the player is, so go after them unless we already are
         if (player != null && agent != null && agent.isOnNavMesh && currentState != State.Chase && currentState != State.Attack)
@@ -403,13 +477,13 @@ public class Enemy : MonoBehaviour
     }
 
     // shows what each enemy is doing above its head, only while the game is running, for testing and tuning
-    void OnGUI()
-    {
-        if (!showStateLabel || Camera.main == null) return;
+    // void OnGUI()
+    // {
+    //     if (!showStateLabel || Camera.main == null) return;
 
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1.6f);
-        if (screenPos.z <= 0f || screenPos.z > 25f) return; // behind the camera or too far away
+    //     Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1.6f);
+    //     if (screenPos.z <= 0f || screenPos.z > 25f) return; // behind the camera or too far away
 
-        GUI.Label(new Rect(screenPos.x - 40f, Screen.height - screenPos.y - 10f, 120f, 20f), currentState.ToString());
-    }
+    //     GUI.Label(new Rect(screenPos.x - 40f, Screen.height - screenPos.y - 10f, 120f, 20f), currentState.ToString());
+    // }
 }
