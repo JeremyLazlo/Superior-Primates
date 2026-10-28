@@ -1,18 +1,29 @@
 using UnityEngine;
+using System.Collections.Generic;
 
+//Responsible for generating the entire map
 public class MapGenerator : MonoBehaviour
 {
-    private LevelPlacer levelGen;
+    public int numberOfLevelsGenerated = 4;
     public SeedGenerator seedGen;
+    private LevelPlacer levelGen;
     private int seed;
+    //private Queue<GameObject> levelsPlaced = new Queue<GameObject>();
 
     // Generate seed and place levels
     void Start()
     {
         levelGen = this.GetComponent<LevelPlacer>();
-        seed = seedGen.generateNewSeed();
-        //GenerateLevels(4);
-        //spawnAtStart();
+        seedGen.setSeed(4095);
+        seed = seedGen.getSeed();
+        //seedGen.generateNewSeed();
+        if(numberOfLevelsGenerated <= 0)
+        {
+            //Invalid input for numberOfLevelsGenerated; use default value
+            numberOfLevelsGenerated = 4;
+        }
+        GenerateLevels(numberOfLevelsGenerated);
+        spawnAtStart(); //teleport player to start
     }
 
     // Update is called once per frame
