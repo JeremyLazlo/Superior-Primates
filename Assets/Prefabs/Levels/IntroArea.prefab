@@ -20528,6 +20528,7 @@ GameObject:
   - component: {fileID: 2152808904913050353}
   - component: {fileID: 4591227217537629076}
   - component: {fileID: 2815346611994377362}
+  - component: {fileID: 8531914412878863309}
   m_Layer: 0
   m_Name: ShotgunBlock
   m_TagString: Untagged
@@ -20628,6 +20629,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8531914412878863309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7750694136913156398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12aeae5120601424e8f3ba80ad638e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldItemPickup
+  itemDefinition: {fileID: 11400000, guid: 9ee0df86cede9b44d85a898efe11841c, type: 2}
 --- !u!1 &7791843693831124810
 GameObject:
   m_ObjectHideFlags: 0
