@@ -15,6 +15,6 @@ MonoBehaviour:
   itemID: weaponShotgun
   itemName: Shotgun
   itemDescription: A close range, high damage firearm.
-  itemIcon: {fileID: 0}
-  itemSize: {x: 2, y: 5}
+  itemIcon: {fileID: 21300000, guid: 99e1df21a52e14e468b5c368593818d3, type: 3}
+  itemSize: {x: 4, y: 2}
   itemStack: 1

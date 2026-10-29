@@ -28,7 +28,14 @@ public class Gun : MonoBehaviour
 
     private float nextTimeToFire;
     private BoxCollider gunTrigger;
-    private bool shootingEnabled = true;
+    private bool shootingEnabled = false;
+    private bool inventoryAllowsShooting = true;
+
+    private void Awake()
+    {
+        SetShootingEnabled(false);
+    }
+
 
     void Start()
     {
@@ -42,13 +49,16 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        if (!shootingEnabled || Time.timeScale <= 0f)
+        if (!shootingEnabled ||
+            !inventoryAllowsShooting ||
+            Time.timeScale <= 0f)
             return;
 
         if (Mouse.current == null)
             return;
 
-        if (Mouse.current.leftButton.isPressed && Time.time >= nextTimeToFire)
+        if (Mouse.current.leftButton.isPressed &&
+            Time.time >= nextTimeToFire)
         {
             Fire();
         }
@@ -57,12 +67,28 @@ public class Gun : MonoBehaviour
     public void SetShootingEnabled(bool enabled)
     {
         shootingEnabled = enabled;
+
         if (TryGetComponent(out GunAmmo ammo))
             ammo.SetShootingEnabled(enabled);
+
+        Debug.Log(
+            $"Gun shooting set to {enabled} on {gameObject.name}",
+            this
+        );
+    }
+
+    public void SetInventoryAllowsShooting(bool allowed)
+    {
+        inventoryAllowsShooting = allowed;
     }
 
     void Fire()
     {
+        Debug.Log(
+        $"Fire() called on {gameObject.name}. " +
+        $"Shooting enabled: {shootingEnabled}"
+        );
+
         if (playerCamera == null)
             return;
         // out of ammo
