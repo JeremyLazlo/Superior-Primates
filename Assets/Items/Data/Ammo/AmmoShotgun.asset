@@ -15,6 +15,6 @@ MonoBehaviour:
   itemID: ammoShotgun
   itemName: Shotgun Ammo
   itemDescription: Heavy ammunition for a shotgun.
-  itemIcon: {fileID: 0}
-  itemSize: {x: 1, y: 2}
+  itemIcon: {fileID: 21300000, guid: 8d13dde0d4f19bf4e988a0b9090dc59f, type: 3}
+  itemSize: {x: 1, y: 1}
   itemStack: 5

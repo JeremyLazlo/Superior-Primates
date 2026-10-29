@@ -16,7 +16,7 @@ public class InventoryToggle : MonoBehaviour
         Time.timeScale = 1f;
 
         mouseLook.SetLookEnabled(true);
-        gun.SetShootingEnabled(true);
+        gun.SetInventoryAllowsShooting(true);
 
         LockCursor();
     }
@@ -41,7 +41,7 @@ public class InventoryToggle : MonoBehaviour
             Time.timeScale = 0f;
 
             mouseLook.SetLookEnabled(false);
-            gun.SetShootingEnabled(false);
+            gun.SetInventoryAllowsShooting(false);
 
             UnlockCursor();
         }
@@ -53,7 +53,7 @@ public class InventoryToggle : MonoBehaviour
             Time.timeScale = 1f;
 
             mouseLook.SetLookEnabled(true);
-            gun.SetShootingEnabled(true);
+            gun.SetInventoryAllowsShooting(true);
 
             LockCursor();
         }

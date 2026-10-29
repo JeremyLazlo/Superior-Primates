@@ -15,6 +15,6 @@ MonoBehaviour:
   itemID: consumableHealthPack
   itemName: Health Pack
   itemDescription: Heals you as soon as you pick it up. Never goes into the inventory.
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 50206bd788f89034498b025f8ee6e574, type: 3}
   itemSize: {x: 1, y: 1}
   itemStack: 1
