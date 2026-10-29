@@ -3471,6 +3471,7 @@ GameObject:
   - component: {fileID: 1061519373932092987}
   - component: {fileID: 5821453240852951722}
   - component: {fileID: 5028273491629080989}
+  - component: {fileID: 2340638660499191162}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -3673,6 +3674,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2340638660499191162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2634946036685973975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &2687345793600729640
 GameObject:
   m_ObjectHideFlags: 0
@@ -7462,6 +7480,7 @@ GameObject:
   - component: {fileID: 6680905896385173107}
   - component: {fileID: 1132929678120996442}
   - component: {fileID: 5580875668437892425}
+  - component: {fileID: 3642837663152554791}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Enemy
@@ -7664,6 +7683,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3642837663152554791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5098891288209888253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &5115131385087305064
 GameObject:
   m_ObjectHideFlags: 0
@@ -7903,6 +7939,7 @@ GameObject:
   - component: {fileID: 5595580609744637390}
   - component: {fileID: 77486159891625795}
   - component: {fileID: 972503658743361648}
+  - component: {fileID: 3056791547505190373}
   m_Layer: 0
   m_Name: Enemy (2)
   m_TagString: Enemy
@@ -8103,6 +8140,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3056791547505190373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134598010974658658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &5184609861613808592
 GameObject:
   m_ObjectHideFlags: 0
@@ -8342,6 +8396,7 @@ GameObject:
   - component: {fileID: 8606798059665721607}
   - component: {fileID: 115790574675788968}
   - component: {fileID: 8901226081277805107}
+  - component: {fileID: 6379922110518722326}
   m_Layer: 0
   m_Name: Enemy (3)
   m_TagString: Enemy
@@ -8542,6 +8597,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6379922110518722326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5289612162497244989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &5491086152355973710
 GameObject:
   m_ObjectHideFlags: 0
@@ -9714,6 +9786,7 @@ GameObject:
   - component: {fileID: 7395934768344765603}
   - component: {fileID: 6176793461162763564}
   - component: {fileID: 4380901697475710548}
+  - component: {fileID: 2083650394952249968}
   m_Layer: 0
   m_Name: Enemy (7)
   m_TagString: Enemy
@@ -9916,6 +9989,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2083650394952249968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6345149833514981109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &6426166842352703048
 GameObject:
   m_ObjectHideFlags: 0
@@ -10043,6 +10133,7 @@ GameObject:
   - component: {fileID: 6984254984020973605}
   - component: {fileID: 805291470815191077}
   - component: {fileID: 8252217011029622435}
+  - component: {fileID: 109204021841640482}
   m_Layer: 0
   m_Name: Enemy (4)
   m_TagString: Enemy
@@ -10243,6 +10334,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &109204021841640482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6431028949561340223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &6441444206191359108
 GameObject:
   m_ObjectHideFlags: 0
@@ -12588,6 +12696,7 @@ GameObject:
   - component: {fileID: 1977742051051452699}
   - component: {fileID: 2083356926846814293}
   - component: {fileID: 3763174303420121706}
+  - component: {fileID: 4116918523904244712}
   m_Layer: 0
   m_Name: Enemy (5)
   m_TagString: Enemy
@@ -12790,6 +12899,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4116918523904244712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7712596156010721993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &7769048983936171203
 GameObject:
   m_ObjectHideFlags: 0
@@ -12947,6 +13073,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldItemPickup
   itemDefinition: {fileID: 11400000, guid: ce4c77371f5400d439834a9cfe2b881a, type: 2}
+  unlocksShotgun: 0
+  shotgunUnlockController: {fileID: 0}
 --- !u!1 &7940721169402773143
 GameObject:
   m_ObjectHideFlags: 0
@@ -13186,6 +13314,7 @@ GameObject:
   - component: {fileID: 9092102740593516447}
   - component: {fileID: 848210303133386885}
   - component: {fileID: 5094467183629030343}
+  - component: {fileID: 6077549335858177903}
   m_Layer: 0
   m_Name: Enemy (6)
   m_TagString: Enemy
@@ -13386,6 +13515,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6077549335858177903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004408062390140014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &8024459427231523295
 GameObject:
   m_ObjectHideFlags: 0

@@ -17266,6 +17266,7 @@ GameObject:
   - component: {fileID: 6762124274578989094}
   - component: {fileID: 3892485407388245511}
   - component: {fileID: 3661442238078962364}
+  - component: {fileID: 2393115127796781733}
   m_Layer: 0
   m_Name: Enemy (7)
   m_TagString: Enemy
@@ -17468,6 +17469,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2393115127796781733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3901252198063754580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &3913702586127357018
 GameObject:
   m_ObjectHideFlags: 0
@@ -18598,6 +18616,7 @@ GameObject:
   - component: {fileID: 9079614198079269923}
   - component: {fileID: 2162607329234830081}
   - component: {fileID: 2013015279006017361}
+  - component: {fileID: 4857098634733823666}
   m_Layer: 0
   m_Name: Enemy (4)
   m_TagString: Enemy
@@ -18798,6 +18817,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4857098634733823666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058108451975752365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &5276112744852104218
 GameObject:
   m_ObjectHideFlags: 0
@@ -19494,6 +19530,7 @@ GameObject:
   - component: {fileID: 2118741602308054479}
   - component: {fileID: 2692432763320096707}
   - component: {fileID: 6940937880086381658}
+  - component: {fileID: 6026345508978793747}
   m_Layer: 0
   m_Name: Enemy (5)
   m_TagString: Enemy
@@ -19696,6 +19733,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6026345508978793747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5944348138578168106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &6056992138641862501
 GameObject:
   m_ObjectHideFlags: 0
@@ -20025,6 +20079,7 @@ GameObject:
   - component: {fileID: 8637089783580253434}
   - component: {fileID: 371205936637323372}
   - component: {fileID: 4094222599146373423}
+  - component: {fileID: 1970423925588775779}
   m_Layer: 0
   m_Name: Enemy (6)
   m_TagString: Enemy
@@ -20225,6 +20280,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1970423925588775779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257413547578014824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ef96312b0e4eb8aca249c1a118410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySprite
+  sprite: {fileID: 21300000, guid: 295ed8e0782ebc847b16dd29273c39b6, type: 3}
+  height: 2
+  heightOffset: 0
+  tint: {r: 1, g: 1, b: 1, a: 1}
+  hideOriginalBody: 1
 --- !u!1 &6278308921409626585
 GameObject:
   m_ObjectHideFlags: 0
