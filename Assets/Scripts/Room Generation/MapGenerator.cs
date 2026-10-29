@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using UnityEngine.TextCore.Text;
 
 //Responsible for generating the entire map
 public class MapGenerator : MonoBehaviour
@@ -10,26 +12,43 @@ public class MapGenerator : MonoBehaviour
     private int seed;
     //private Queue<GameObject> levelsPlaced = new Queue<GameObject>();
 
-    // Generate seed and place levels
+    //Get number of levels to generate
     void Start()
     {
-        levelGen = this.GetComponent<LevelPlacer>();
-        seedGen.setSeed(4095);
-        seed = seedGen.getSeed();
-        //seedGen.generateNewSeed();
+        
         if(numberOfLevelsGenerated <= 0)
         {
             //Invalid input for numberOfLevelsGenerated; use default value
+            Debug.LogWarning("Invalid number of levels to be generated, using 4");
             numberOfLevelsGenerated = 4;
         }
-        GenerateLevels(numberOfLevelsGenerated);
-        spawnAtStart(); //teleport player to start
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+ 
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    //Generate levels and spawn player at start
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        seedGen.setSeed(4095);
+        seed = seedGen.getSeed();
+        //seedGen.generateNewSeed();
+        levelGen = this.GetComponent<LevelPlacer>();
+        GenerateLevels(numberOfLevelsGenerated);
+        spawnAtStart(); //teleport player to start
     }
 
     void GenerateLevels(int numLevels)
@@ -55,6 +74,9 @@ public class MapGenerator : MonoBehaviour
     void spawnAtStart()
     {
         GameObject player = GameObject.Find("Player");
+        CharacterController controller = player.GetComponent<CharacterController>();
+        controller.enabled = false;
         player.transform.position = levelGen.getSpawnLocation() + new Vector3(0, 1.75f, 0);
+        controller.enabled = true;
     }
 }
