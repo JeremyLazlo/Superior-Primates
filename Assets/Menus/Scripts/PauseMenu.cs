@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 // Escape pauses the level: freezes time, shows the pause panel and switches off the gameplay scripts.
-// Lives on the root of the PauseMenu prefab; each button's On Click calls one of the public methods below.
 public class PauseMenu : MonoBehaviour
 {
     [Header("UI")]
@@ -26,11 +26,23 @@ public class PauseMenu : MonoBehaviour
 
     public static bool IsPaused { get; private set; }
 
+    // True while anything is holding gameplay frozen: the pause panel, a story popup, ...
+    public static bool IsGameplayFrozen => freezeHolders.Count > 0;
 
     private static PauseMenu inCharge;
 
+    // Everything currently holding gameplay frozen (this menu while it's open, an open DialoguePopup, ...)
+    private static readonly HashSet<object> freezeHolders = new HashSet<object>();
+
     // Which gameplay scripts were switched on when the game was paused, so Resume only turns those back on
     private bool[] wasEnabled;
+
+    // True while ApplyPauseState(true) is in effect
+    private bool frozen;
+
+    // Set when something else (like the open inventory) had already stopped time when the freeze started,
+    // so unfreezing hands the game back still stopped, with the cursor free, instead of starting play
+    private bool stoppedBeforeFreeze;
 
     private void Awake()
     {
@@ -70,7 +82,17 @@ public class PauseMenu : MonoBehaviour
             optionsMenu.Close();
         }
 
-        ApplyPauseState(false);
+        // Forget anything still "holding" the game from a level that was unloaded mid-freeze
+        freezeHolders.RemoveWhere(IsGone);
+
+        if (IsGameplayFrozen)
+        {
+            RefreshPauseState(); // something (like a popup) froze gameplay before this menu was ready
+        }
+        else
+        {
+            ApplyPauseState(false);
+        }
     }
 
     private void Update()
@@ -87,8 +109,8 @@ public class PauseMenu : MonoBehaviour
             return;
         }
 
-        // Something else (like the inventory) already froze the game, so don't pause on top of it
-        if (!IsPaused && Time.timeScale == 0f)
+        // Something else (like the inventory or a story popup) already froze the game, so don't pause on top of it
+        if (!IsPaused && (Time.timeScale == 0f || IsGameplayFrozen))
         {
             return;
         }
@@ -122,7 +144,7 @@ public class PauseMenu : MonoBehaviour
             hud.SetActive(false);
         }
 
-        ApplyPauseState(true);
+        FreezeGameplay(this);
     }
 
     public void Resume()
@@ -142,7 +164,7 @@ public class PauseMenu : MonoBehaviour
             hud.SetActive(true);
         }
 
-        ApplyPauseState(false);
+        UnfreezeGameplay(this); // play only starts again if nothing else (like a popup) is still holding the game
     }
 
     public void OpenOptions()
@@ -176,17 +198,78 @@ public class PauseMenu : MonoBehaviour
 #endif
     }
 
-    private void ApplyPauseState(bool paused)
+    // ---------------------------------------------------------------- shared gameplay freeze
+
+    // Freezes gameplay exactly like pausing does (time stopped, sound paused, cursor freed, player scripts off),
+    // but without showing the pause panel. Pass the object asking (usually "this") and call
+    // UnfreezeGameplay with the same object when it's done. Asking twice with the same object counts once.
+    public static void FreezeGameplay(object holder)
     {
-        Time.timeScale = paused ? 0f : 1f; // If paused is true, timeScale is 0f, otherwise it's 1f
-        AudioListener.pause = paused;
-
-        Cursor.lockState = paused ? CursorLockMode.None : CursorLockMode.Locked; // Unlocking cursor from MouseLook / Locking it back up
-        Cursor.visible = paused;
-
-        if (gameplayScripts == null)
+        if (holder == null || !freezeHolders.Add(holder))
         {
             return;
+        }
+
+        if (inCharge != null)
+        {
+            inCharge.RefreshPauseState();
+        }
+        else if (FindAnyObjectByType<PauseMenu>() == null)
+        {
+            Debug.LogWarning("Gameplay can't be frozen because there's no PauseMenu in this scene. " +
+                             "Drag the PauseMenu prefab (Assets/Menus/Prefabs) into the level.");
+        }
+    }
+
+    // Lets go of a freeze started with FreezeGameplay. Play only starts again once nothing else is holding it.
+    public static void UnfreezeGameplay(object holder)
+    {
+        if (holder == null || !freezeHolders.Remove(holder))
+        {
+            return;
+        }
+
+        if (inCharge != null)
+        {
+            inCharge.RefreshPauseState();
+        }
+    }
+
+    // Frozen while anything holds the game, playable once nothing does
+    private void RefreshPauseState()
+    {
+        bool freeze = IsGameplayFrozen;
+        if (freeze != frozen)
+        {
+            ApplyPauseState(freeze);
+        }
+    }
+
+    private void ApplyPauseState(bool paused)
+    {
+        if (paused && !frozen)
+        {
+            stoppedBeforeFreeze = Time.timeScale == 0f; // e.g. the inventory is open
+        }
+        frozen = paused;
+
+        // Back to normal play, unless something else had already stopped the game before the freeze
+        bool play = !paused && !stoppedBeforeFreeze;
+        if (!paused)
+        {
+            stoppedBeforeFreeze = false;
+        }
+
+        Time.timeScale = play ? 1f : 0f; // Frozen (or handed back stopped) is 0f, normal play is 1f
+        AudioListener.pause = paused;
+
+        Cursor.lockState = play ? CursorLockMode.Locked : CursorLockMode.None; // Unlocking cursor from MouseLook / Locking it back up
+        Cursor.visible = !play;
+
+        // A popup can freeze gameplay before Start has run, so find the scripts here if needed
+        if (gameplayScripts == null || gameplayScripts.Length == 0)
+        {
+            gameplayScripts = FindGameplayScripts();
         }
 
         if (paused)
@@ -219,6 +302,9 @@ public class PauseMenu : MonoBehaviour
     private void ClearPauseState()
     {
         IsPaused = false;
+        freezeHolders.Clear(); // leaving the level, so nothing should keep holding the game
+        frozen = false;
+        stoppedBeforeFreeze = false;
         Time.timeScale = 1f;
         AudioListener.pause = false;
         Cursor.lockState = CursorLockMode.None;
@@ -246,7 +332,21 @@ public class PauseMenu : MonoBehaviour
         }
 
         inCharge = null;
+        freezeHolders.Clear();
         Time.timeScale = 1f;
         AudioListener.pause = false;
+    }
+
+    // A holder that was destroyed (for example along with its level) without letting go
+    private static bool IsGone(object holder)
+    {
+        return holder == null || (holder is UnityEngine.Object unityObject && unityObject == null);
+    }
+
+    // Static fields survive between Play sessions when domain reload is turned off (Enter Play Mode Options)
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetFreezeHolders()
+    {
+        freezeHolders.Clear();
     }
 }
