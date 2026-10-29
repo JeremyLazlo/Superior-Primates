@@ -11,7 +11,7 @@ public class IntroPopup : MonoBehaviour
     [SerializeField] private string message =
         "There's glass everywhere. It looks like whatever I was in somehow shattered. The floor is so cold, and I can't help myself from shaking. " +
         "How long was I in that thing?\n\n" +
-        "I remember seeing faces on the other side of the glass. Those faces were something beyond human. " +
+        "I remember seeing faces on the other side of the glass. Those faces were something beyond human. Always observing, always taking notes. " +
         "It looks like their tests finally failed, but I fear they are still near.\n\n" +
         "I need to escape this nightmare, whatever it takes. First, I should look around to see if there's anything that could aid my escape. ";
 
