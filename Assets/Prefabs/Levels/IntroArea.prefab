@@ -849,7 +849,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -18.25, y: 0.5, z: 11}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1450740389032694782}
@@ -29266,7 +29266,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7139410686878272469}
@@ -30652,6 +30652,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: AmmoPickup
       objectReference: {fileID: 0}
+    - target: {fileID: 8964768082358150055, guid: f472aa89de02f9440baa0b6c070b8ddc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964768082358150055, guid: f472aa89de02f9440baa0b6c070b8ddc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964768082358150055, guid: f472aa89de02f9440baa0b6c070b8ddc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -30733,6 +30745,18 @@ PrefabInstance:
     - target: {fileID: 7891069792994715997, guid: f472aa89de02f9440baa0b6c070b8ddc, type: 3}
       propertyPath: m_Name
       value: AmmoPickup (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964768082358150055, guid: f472aa89de02f9440baa0b6c070b8ddc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964768082358150055, guid: f472aa89de02f9440baa0b6c070b8ddc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964768082358150055, guid: f472aa89de02f9440baa0b6c070b8ddc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -30890,6 +30914,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthPickup
       objectReference: {fileID: 0}
+    - target: {fileID: 8005246369219055401, guid: 151dd19be1878c64e89255b868066b2b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8005246369219055401, guid: 151dd19be1878c64e89255b868066b2b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8005246369219055401, guid: 151dd19be1878c64e89255b868066b2b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -30971,6 +31007,18 @@ PrefabInstance:
     - target: {fileID: 4669566293191279112, guid: 151dd19be1878c64e89255b868066b2b, type: 3}
       propertyPath: m_Name
       value: HealthPickup (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8005246369219055401, guid: 151dd19be1878c64e89255b868066b2b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8005246369219055401, guid: 151dd19be1878c64e89255b868066b2b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8005246369219055401, guid: 151dd19be1878c64e89255b868066b2b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
