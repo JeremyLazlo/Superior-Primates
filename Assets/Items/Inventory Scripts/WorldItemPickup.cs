@@ -28,7 +28,6 @@ public class WorldItemPickup : MonoBehaviour
             return false;
         }
 
-        // Attempt to add the item to the inventory first.
         bool success = inventoryController.TryAddItem(itemDefinition);
 
         Debug.Log($"Pickup result for {gameObject.name}: {success}");
@@ -36,7 +35,6 @@ public class WorldItemPickup : MonoBehaviour
         if (!success)
             return false;
 
-        // Unlock the shotgun only after a successful inventory addition.
         if (unlocksShotgun)
         {
             if (shotgunUnlockController == null)

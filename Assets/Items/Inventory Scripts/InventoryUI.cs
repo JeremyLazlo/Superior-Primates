@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class InventoryUI : MonoBehaviour
 
     public float CellSize => cellSize;
 
-    private void Start()
+    private void Awake()
     {
         InitializeUI();
     }
@@ -43,6 +44,10 @@ public class InventoryUI : MonoBehaviour
 
         GenerateGrid();
         initialized = true;
+
+        Debug.Log(
+            $"InventoryUI initialized. Items currently in inventory: {inventory.Items.Count}"
+        );
 
         RefreshItems();
     }
@@ -83,6 +88,11 @@ public class InventoryUI : MonoBehaviour
 
     public void RefreshItems()
     {
+        Debug.Log(
+            $"RefreshItems called. Initialized: {initialized}, " +
+            $"Inventory items: {(inventory != null ? inventory.Items.Count : -1)}"
+        );
+
         if (!initialized)
         {
             InitializeUI();
@@ -107,10 +117,6 @@ public class InventoryUI : MonoBehaviour
 
             if (itemUI == null)
             {
-                Debug.LogError(
-                    "Inventory item prefab is missing InventoryItemUI.",
-                    itemObject
-                );
 
                 Destroy(itemObject);
                 continue;
@@ -118,6 +124,9 @@ public class InventoryUI : MonoBehaviour
 
             itemUI.Initialize(item, this);
             itemUI.RefreshVisual(cellSize);
+
+            RectTransform root = itemObject.GetComponent<RectTransform>();
+            RectTransform imageRect = itemObject.GetComponentInChildren<Image>(true).rectTransform;
 
             itemUIs.Add(item, itemUI);
         }
@@ -154,9 +163,6 @@ public class InventoryUI : MonoBehaviour
 
         bool canPlace = inventory.CanPlace(item, position, item);
 
-        Debug.Log(
-            $"Placement preview: {item.def.itemName} at {position} = {canPlace}"
-        );
 
         return canPlace;
     }
@@ -198,8 +204,6 @@ public class InventoryUI : MonoBehaviour
                 itemBeingDragged,
                 out InventoryItemUI itemUI))
             {
-                // Update the dimensions without resetting
-                // the item's current drag position.
                 itemUI.RefreshSize(cellSize);
             }
         }

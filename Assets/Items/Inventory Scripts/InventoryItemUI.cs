@@ -22,30 +22,25 @@ public class InventoryItemUI : MonoBehaviour,
 
     private void Awake()
     {
-        itemRect = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
+        itemRect = transform as RectTransform;
 
-        Debug.Log(
-            $"InventoryItemUI Awake | " +
-            $"GameObject: {gameObject.name} | " +
-            $"RectTransform found: {itemRect != null} | " +
-            $"Image found: {image != null}",
-            this
-        );
+        image = GetComponentInChildren<Image>(true);
     }
 
     public void Initialize(ItemInstance item, InventoryUI inventoryUI)
     {
+        itemRect = GetComponent<RectTransform>();
+
+        if (itemRect == null)
+        {
+            return;
+        }
+
         if (image == null)
             image = GetComponentInChildren<Image>(true);
 
         if (item == null || item.def == null || image == null)
         {
-            Debug.LogError(
-                "InventoryItemUI could not initialize. " +
-                "Check the item, definition, and Image component.",
-                this
-            );
             return;
         }
 
@@ -60,8 +55,6 @@ public class InventoryItemUI : MonoBehaviour,
     {
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
-
-        // Item selection and cell highlighting have been removed.
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -117,16 +110,10 @@ public class InventoryItemUI : MonoBehaviour,
         {
             return;
         }
-
-        // Calculate the proposed item position.
         Vector2 proposedPosition =
             localPointerPosition + dragOffset;
-
-        // Convert the position to inventory grid coordinates.
         Vector2Int gridPosition =
             inventoryUI.GetGridPosition(proposedPosition);
-
-        // Snap the item's top-left corner to the grid.
         itemRect.anchoredPosition = new Vector2(
             gridPosition.x * inventoryUI.CellSize,
             -gridPosition.y * inventoryUI.CellSize
@@ -144,68 +131,60 @@ public class InventoryItemUI : MonoBehaviour,
         Vector2Int targetPosition =
             inventoryUI.GetGridPosition(itemRect.anchoredPosition);
 
-        // Attempt to move the item in the actual inventory data.
         bool moved =
             inventoryUI.TryMoveItem(item, targetPosition);
 
         if (!moved)
         {
-            // Invalid move: restore the original visual position.
             itemRect.anchoredPosition = originalAnchoredPosition;
         }
         else
         {
-            // Successful move: refresh from inventory data.
+
             RefreshVisual(inventoryUI.CellSize);
         }
     }
 
     public void RefreshVisual(float cellSize)
     {
-        // Ensure the component references are initialized.
-        if (itemRect == null)
-            itemRect = GetComponent<RectTransform>();
 
-        if (image == null)
-            image = GetComponent<Image>();
-
-        if (item == null || item.def == null || itemRect == null)
-        {
-            Debug.LogError(
-                "RefreshVisual failed: " +
-                $"Item missing: {item == null}, " +
-                $"Definition missing: {item == null || item.def == null}, " +
-                $"RectTransform missing: {itemRect == null}",
-                this
-            );
-
+        if (item == null || itemRect == null || image == null)
             return;
-        }
 
-        Vector2Int size = item.GetRotatedSize();
-
-        // Enforce the top-left coordinate convention.
-        itemRect.anchorMin = new Vector2(0f, 1f);
-        itemRect.anchorMax = new Vector2(0f, 1f);
-        itemRect.pivot = new Vector2(0f, 1f);
+        Vector2Int rotatedSize = item.GetRotatedSize();
 
         itemRect.sizeDelta = new Vector2(
-            size.x * cellSize,
-            size.y * cellSize
+            rotatedSize.x * cellSize,
+            rotatedSize.y * cellSize
         );
+
 
         itemRect.anchoredPosition = new Vector2(
             item.inventoryPosition.x * cellSize,
             -item.inventoryPosition.y * cellSize
         );
 
-        Debug.Log(
-            $"RefreshVisual successful | " +
-            $"Item: {item.def.itemName} | " +
-            $"Inventory position: {item.inventoryPosition} | " +
-            $"UI position: {itemRect.anchoredPosition} | " +
-            $"Cell size: {cellSize}",
-            this
+
+        RectTransform imageRect = image.rectTransform;
+
+        imageRect.anchorMin = new Vector2(0.5f, 0.5f);
+        imageRect.anchorMax = new Vector2(0.5f, 0.5f);
+        imageRect.pivot = new Vector2(0.5f, 0.5f);
+        imageRect.anchoredPosition = Vector2.zero;
+
+
+        Vector2Int originalSize = item.def.itemSize;
+
+        imageRect.sizeDelta = new Vector2(
+            originalSize.x * cellSize,
+            originalSize.y * cellSize
+        );
+
+
+        imageRect.localRotation = Quaternion.Euler(
+            0f,
+            0f,
+            -(int)item.inventoryRotation * 90f
         );
     }
 
@@ -225,14 +204,28 @@ public class InventoryItemUI : MonoBehaviour,
 
     public void RefreshSize(float cellSize)
     {
-        if (item == null || itemRect == null)
+        if (item == null || itemRect == null || image == null)
             return;
 
-        Vector2Int size = item.GetRotatedSize();
-
+        Vector2Int rotatedSize = item.GetRotatedSize();
         itemRect.sizeDelta = new Vector2(
-            size.x * cellSize,
-            size.y * cellSize
+            rotatedSize.x * cellSize,
+            rotatedSize.y * cellSize
+        );
+
+        RectTransform imageRect = image.rectTransform;
+
+        Vector2Int originalSize = item.def.itemSize;
+
+        imageRect.sizeDelta = new Vector2(
+            originalSize.x * cellSize,
+            originalSize.y * cellSize
+        );
+
+        imageRect.localRotation = Quaternion.Euler(
+            0f,
+            0f,
+            -(int)item.inventoryRotation * 90f
         );
     }
 }

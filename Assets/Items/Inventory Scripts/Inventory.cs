@@ -138,7 +138,6 @@ public class Inventory
         if (item == null || !items.Contains(item))
             return false;
 
-        // Check placement while ignoring this item's current cells.
         if (!CanPlace(item, newPosition, item))
             return false;
 
@@ -156,8 +155,6 @@ public class Inventory
             return false;
 
         Rotation originalRotation = item.inventoryRotation;
-
-        // Try the next 90-degree orientation.
         item.Rotate();
 
         if (CanPlace(item, item.inventoryPosition, item))
@@ -166,19 +163,14 @@ public class Inventory
             WriteCells(item);
             return true;
         }
-
-        // Rotation is invalid; restore the original orientation.
         item.inventoryRotation = originalRotation;
         return false;
     }
 
-    //Returns true if requested item is in inventory
-    //NOTE: currently checks item names. May need to change later??
     public ItemInstance HasItem(String name)
     {
         foreach(ItemInstance i in items)
         {
-            //Check for matching name
             if(i.def.itemName.Equals(name))
             {
                 return i;
