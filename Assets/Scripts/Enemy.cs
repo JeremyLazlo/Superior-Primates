@@ -119,6 +119,7 @@ public class Enemy : MonoBehaviour
         if(enemyHealth <= 0) // Check if the enemy's health is zero or below
         {
             if (enemyManager != null) enemyManager.RemoveEnemy(this); // Remove the enemy from the list in EnemyManager
+            DifficultyManager.ReportKill(); // DIFFICULTY: the player killed one, the difficulty system keeps score
             if (deathSound != null) AudioSource.PlayClipAtPoint(deathSound, transform.position); // plays at the spot, the enemy's own AudioSource is about to be destroyed
             Destroy(gameObject);
             return;
@@ -201,7 +202,10 @@ public class Enemy : MonoBehaviour
                 // ranged enemies only fire once they are actually turned toward the player
                 bool facingPlayer = Vector3.Angle(transform.forward, dir) < 20f;
 
-                if (Time.time >= lastAttackTime + attackCooldown && (!isRanged || facingPlayer))
+                // DIFFICULTY: the wait between attacks gets shorter when the player is doing well
+                float cooldown = attackCooldown / DifficultyManager.AggressionMultiplier;
+
+                if (Time.time >= lastAttackTime + cooldown && (!isRanged || facingPlayer))
                 {
                     AttackPlayer();
                     lastAttackTime = Time.time;
@@ -288,16 +292,18 @@ public class Enemy : MonoBehaviour
     {
         Vector3 origin = firePoint != null ? firePoint.position : transform.position + Vector3.up * eyeHeight + transform.forward * 0.6f;
         Vector3 direction = player.position - origin;
+        int damage = ScaledDamage(); // DIFFICULTY
 
         if (projectilePrefab != null)
         {
             GameObject shot = Instantiate(projectilePrefab, origin, Quaternion.LookRotation(direction));
             EnemyProjectile projectile = shot.GetComponent<EnemyProjectile>();
-            if (projectile != null) projectile.Launch(direction, attackDamage);
+            if (projectile != null) projectile.Launch(direction, damage);
         }
         else if (playerHealth != null)
         {
-            playerHealth.DamagePlayer(attackDamage); // no prefab assigned yet, so just hit instantly
+            playerHealth.DamagePlayer(damage); // no prefab assigned yet, so just hit instantly
+            DifficultyManager.ReportPlayerDamaged(damage); // DIFFICULTY
         }
     }
 
@@ -327,6 +333,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // DIFFICULTY
+    // attackDamage after the difficulty system has scaled it up or down, never less than 1
+    int ScaledDamage()
+    {
+        return Mathf.Max(1, Mathf.RoundToInt(attackDamage * DifficultyManager.DamageMultiplier));
+    }
+
     // random groans while the enemy hasn't noticed the player, keeps them from being silent
     void MaybePlayIdleSound()
     {
@@ -341,7 +354,7 @@ public class Enemy : MonoBehaviour
         if (currentState != State.Chase && currentState != State.Attack) PlaySound(alertSound); // only when we first spot them, not every time we go back into chase
 
         currentState = State.Chase;
-        agent.speed = chaseSpeed; // Initiate the chase speed (faster than patrol)
+        agent.speed = chaseSpeed * DifficultyManager.SpeedMultiplier; // Initiate the chase speed (faster than patrol), DIFFICULTY scales it
         lastKnownPosition = player.position; // so if we get shot from out of sight we still know where to look
     }
 
@@ -350,7 +363,7 @@ public class Enemy : MonoBehaviour
         lastKnownPosition = position;
         currentState = State.Investigate;
         PlaySound(investigateSound);
-        agent.speed = investigateSpeed;
+        agent.speed = investigateSpeed * DifficultyManager.SpeedMultiplier; // DIFFICULTY scales it
         agent.SetDestination(position);
     }
 
@@ -360,7 +373,8 @@ public class Enemy : MonoBehaviour
         Vector3 toPlayer = player.position - transform.position;
         float distance = toPlayer.magnitude;
 
-        if (distance > detectionRange) return false;
+        float range = detectionRange * DifficultyManager.DetectionMultiplier; // DIFFICULTY: notices you from further away when the player is doing well
+        if (distance > range) return false;
 
         if (distance > closeSenseRange)
         {
@@ -427,13 +441,16 @@ public class Enemy : MonoBehaviour
             return;
         }
 
+        int damage = ScaledDamage(); // DIFFICULTY
+
         // hits the player through PlayerHealth script
         if (playerHealth != null)
         {
-            playerHealth.DamagePlayer(attackDamage);
+            playerHealth.DamagePlayer(damage);
+            DifficultyManager.ReportPlayerDamaged(damage); // DIFFICULTY: tells the difficulty system the player got hurt
         }
 
-        Debug.Log("Enemy attacks player for " + attackDamage + " damage!");
+        Debug.Log("Enemy attacks player for " + damage + " damage!");
     }
 
     public void TakeDamage(float damage) // Method to apply damage to the enemy
@@ -477,13 +494,13 @@ public class Enemy : MonoBehaviour
     }
 
     // shows what each enemy is doing above its head, only while the game is running, for testing and tuning
-    // void OnGUI()
-    // {
-    //     if (!showStateLabel || Camera.main == null) return;
+    void OnGUI()
+    {
+        if (!showStateLabel || Camera.main == null) return;
 
-    //     Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1.6f);
-    //     if (screenPos.z <= 0f || screenPos.z > 25f) return; // behind the camera or too far away
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1.6f);
+        if (screenPos.z <= 0f || screenPos.z > 25f) return; // behind the camera or too far away
 
-    //     GUI.Label(new Rect(screenPos.x - 40f, Screen.height - screenPos.y - 10f, 120f, 20f), currentState.ToString());
-    // }
+        GUI.Label(new Rect(screenPos.x - 40f, Screen.height - screenPos.y - 10f, 120f, 20f), currentState.ToString());
+    }
 }

@@ -34,6 +34,7 @@ public class EnemyProjectile : MonoBehaviour
                 if (health != null)
                 {
                     health.DamagePlayer(damage);
+                    DifficultyManager.ReportPlayerDamaged(damage); // DIFFICULTY: tells the difficulty system the player got hurt
                     Debug.Log("Projectile hit player for " + damage + " damage!"); // Prints message to console when the projectile hits the player
                 }
 
